@@ -15,6 +15,7 @@ import TestimonialsSection from "@/components/testimonial"
 import WhyUs from "@/components/whyUs"
 import OrderFormSection from "@/components/Order"
 import FAQSection from "@/components/Faq"
+import { Suspense } from "react"
 
 export default function Home() {
   return (
@@ -26,7 +27,9 @@ export default function Home() {
       <PricingSection/>
       <TestimonialsSection/>
       <WhyUs/>
-      <OrderFormSection/>
+      <Suspense fallback={<div />}> 
+        <OrderFormSection/>
+      </Suspense>
       <FAQSection/>
 
     </main>
