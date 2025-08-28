@@ -19,7 +19,7 @@ import { Suspense } from "react"
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
+    <main className="">
       {/* <Navbar />   */}
       <HeroSection />
       <ProblemSection/> 

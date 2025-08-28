@@ -99,7 +99,7 @@ export default function FAQSection() {
       </div>
     </section>
     <motion.div
-          className="text-center mt-12 max-sm:px-3 text-sm text-black space-y-2"
+          className="text-center mt-6 mb-30 max-sm:px-3 text-sm text-black space-y-2"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 1 }}

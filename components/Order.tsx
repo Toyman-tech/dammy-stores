@@ -28,6 +28,9 @@ export default function OrderFormSection() {
   })
   const [submitting, setSubmitting] = useState(false)
   const [result, setResult] = useState<{ ok?: boolean; error?: string } | null>(null)
+  // 12-hour countdown (in seconds) that persists across reloads
+  const TWELVE_HOURS = 12 * 60 * 60
+  const [remaining, setRemaining] = useState<number>(0)
 
   // Preselect package from query string e.g. /?pkg=regular#order
   useEffect(() => {
@@ -37,6 +40,44 @@ export default function OrderFormSection() {
       setFormData((prev) => ({ ...prev, order: pkg }))
     }
   }, [searchParams, formData.order])
+
+  // Countdown ticking effect using an absolute end time persisted in localStorage
+  useEffect(() => {
+    const key = "orderCountdownEnd"
+    const now = Date.now()
+    let end = 0
+
+    const stored = typeof window !== "undefined" ? window.localStorage.getItem(key) : null
+    if (stored) {
+      const parsed = parseInt(stored)
+      if (!Number.isNaN(parsed) && parsed > now) {
+        end = parsed
+      }
+    }
+    if (!end) {
+      end = now + TWELVE_HOURS * 1000
+      try {
+        window.localStorage.setItem(key, String(end))
+      } catch {}
+    }
+
+    // initialize remaining immediately
+    setRemaining(Math.max(0, Math.floor((end - Date.now()) / 1000)))
+
+    const id = setInterval(() => {
+      const diff = Math.max(0, Math.floor((end - Date.now()) / 1000))
+      setRemaining(diff)
+      if (diff <= 0) {
+        clearInterval(id)
+      }
+    }, 1000)
+    return () => clearInterval(id)
+  }, [])
+
+  const hours = Math.floor(remaining / 3600)
+  const minutes = Math.floor((remaining % 3600) / 60)
+  const seconds = remaining % 60
+  const pad = (n: number) => n.toString().padStart(2, "0")
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -163,6 +204,21 @@ export default function OrderFormSection() {
             </p>
 
             <p className="text-base font-medium">PLACE YOUR ORDER NOW AS THE PRICE AND BONUS GO OFF IN...</p>
+            {/* Countdown */}
+            <div className="flex items-center justify-center gap-4 mt-4">
+              <div className="bg-orange-500 text-white rounded-md px-6 py-4 text-center">
+                <div className="text-4xl font-extrabold leading-none">{pad(hours)}</div>
+                <div className="text-sm mt-1 uppercase tracking-wide">Hours</div>
+              </div>
+              <div className="bg-orange-500 text-white rounded-md px-6 py-4 text-center">
+                <div className="text-4xl font-extrabold leading-none">{pad(minutes)}</div>
+                <div className="text-sm mt-1 uppercase tracking-wide">Minutes</div>
+              </div>
+              <div className="bg-orange-500 text-white rounded-md px-6 py-4 text-center">
+                <div className="text-4xl font-extrabold leading-none">{pad(seconds)}</div>
+                <div className="text-sm mt-1 uppercase tracking-wide">Seconds</div>
+              </div>
+            </div>
           </div>
         </motion.div>
 

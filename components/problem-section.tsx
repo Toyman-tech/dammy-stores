@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { X } from "lucide-react"
 import Image from "next/image"
+import { useEffect, useState } from "react"
 
 const problemPoints = [
     "Mops that push dirt around instead of picking it up",
@@ -13,6 +14,37 @@ const problemPoints = [
 ]
 
 export default function ProblemSection() {
+    // Simple autoplay testimonial carousel data
+    const testimonials = [
+        {
+            name: "Chioma A., Lagos",
+            avatar: "/mod1.jpg",
+            rating: 5,
+            text:
+                "Bending down and wringing a mop was impossible after my surgery. This mop lets me clean with minimal effort! I love how it rotates and does the hard work.",
+        },
+        {
+            name: "Hassan B., Abuja",
+            avatar: "/mod2.jpg",
+            rating: 5,
+            text:
+                "I used to dread mopping. Now it’s quick and satisfying. The self-wringing feature keeps my hands dry and floors spotless.",
+        },
+        {
+            name: "Amaka O., Enugu",
+            avatar: "/mod3.jpg",
+            rating: 5,
+            text:
+                "Great for tiles and wooden floors. It glides smoothly and dries fast. I ordered an extra set for my mum!",
+        },
+    ]
+    const [current, setCurrent] = useState(0)
+    useEffect(() => {
+        const id = setInterval(() => {
+            setCurrent((i) => (i + 1) % testimonials.length)
+        }, 4000)
+        return () => clearInterval(id)
+    }, [testimonials.length])
     return (
         <section className="py-16 px-4 bg-white">
             <div className=" container mx-auto ">
@@ -51,7 +83,7 @@ export default function ProblemSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.3 }}
-                    className="text-xl font-bold text-gray-900 mb-3"
+                    className="text-[18px] font-bold text-gray-900 mb-3"
                 >
                     Do any of these sound familiar?
                 </motion.h3>
@@ -67,7 +99,7 @@ export default function ProblemSection() {
                             className="flex items-start gap-3 mb-2 text-left"
                         >
                             <X className="w-5 h-5 text-red-500 mt-1 flex-shrink-0" />
-                            <span className="text-gray-700 text-lg">{point}</span>
+                            <span className="text-gray-700 text-lg max-sm:text-base">{point}</span>
                         </motion.div>
                     ))}
                 </div>
@@ -100,6 +132,43 @@ export default function ProblemSection() {
                         />
                     </motion.div>
                 </div>
+
+                {/* autoplay testimonial carousel */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="max-w-4xl mx-auto my-8"
+                >
+                    <div className="border border-gray-200 rounded-xl bg-white shadow-sm p-4 sm:p-6">
+                        <div className="flex items-start gap-3">
+                            <div className="h-10 w-10 rounded-full overflow-hidden ring-2 ring-white/40 flex-shrink-0">
+                                <Image src={testimonials[current].avatar} alt={testimonials[current].name} width={40} height={40} className="h-full w-full object-cover" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2">
+                                    <p className="font-semibold text-gray-900 truncate">{testimonials[current].name}</p>
+                                    <div className="text-yellow-500 text-sm" aria-label={`${testimonials[current].rating} stars`}>
+                                        {"★★★★★".slice(0, testimonials[current].rating)}
+                                    </div>
+                                </div>
+                                <p className="text-gray-700 mt-2">{testimonials[current].text}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {/* dots */}
+                    <div className="flex justify-center gap-2 mt-3">
+                        {testimonials.map((_, i) => (
+                            <button
+                                key={i}
+                                onClick={() => setCurrent(i)}
+                                className={`h-2 w-2 rounded-full ${i === current ? "bg-gray-900" : "bg-gray-300"}`}
+                                aria-label={`Go to slide ${i + 1}`}
+                            />
+                        ))}
+                    </div>
+                </motion.div>
 
                 {/* imagine  */}
                 <motion.h2

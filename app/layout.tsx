@@ -3,6 +3,7 @@ import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import './globals.css'
 import { ToasterProvider } from '@/components/ToasterProvider'
+import Foot from '@/components/Foot'
 
 export const metadata: Metadata = {
   title: 'Dammy Stores',
@@ -17,7 +18,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        {children}
+        <div className='min-h-screen flex flex-col  w-full overflow-hidden relative '>
+          <div className='flex flex-col flex-1 overflow-y-auto scrollbar-hide'> {children}</div>
+          <Foot />
+        </div>
         <ToasterProvider />
       </body>
     </html>

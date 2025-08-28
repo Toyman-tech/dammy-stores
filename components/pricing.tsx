@@ -5,16 +5,45 @@ import { Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
 
 export default function PricingSection() {
     const router = useRouter()
+    // persistent 12-hour countdown for free delivery banner
+    const TWELVE_HOURS = 12 * 60 * 60
+    const [remaining, setRemaining] = useState(0)
+    useEffect(() => {
+        const key = "freeShippingCountdownEnd"
+        const now = Date.now()
+        let end = 0
+        const stored = typeof window !== "undefined" ? window.localStorage.getItem(key) : null
+        if (stored) {
+            const parsed = parseInt(stored)
+            if (!Number.isNaN(parsed) && parsed > now) end = parsed
+        }
+        if (!end) {
+            end = now + TWELVE_HOURS * 1000
+            try { window.localStorage.setItem(key, String(end)) } catch {}
+        }
+        setRemaining(Math.max(0, Math.floor((end - Date.now()) / 1000)))
+        const id = setInterval(() => {
+            const diff = Math.max(0, Math.floor((end - Date.now()) / 1000))
+            setRemaining(diff)
+            if (diff <= 0) clearInterval(id)
+        }, 1000)
+        return () => clearInterval(id)
+    }, [])
+    const hours = Math.floor(remaining / 3600)
+    const minutes = Math.floor((remaining % 3600) / 60)
+    const seconds = remaining % 60
+    const pad = (n: number) => n.toString().padStart(2, "0")
     const pricingTiers = [
         {
             name: "REGULAR",
             topDeal: "BUY 1 GET 1 MINI MOP FREE",
             banner: "1 MOP",
             image: "/package1.jpg",
-            features: ["ONE SELF-WRINGING MOP", "ONE FREE MINI MOP", "FREE SHIPPING", "EASY RETURN POLICY"],
+            features: [ "FREE SHIPPING", "EASY RETURN POLICY"],
             price: "₦18,000",
             normalPrice: "₦23,000",
             savings: "₦5,000",
@@ -26,9 +55,6 @@ export default function PricingSection() {
             banner: "2 MOPS",
             image: "/package2.jpg",
             features: [
-                "2 SELF-WRINGING MOPS",
-                "1 EXTRA SELF-WRINGING MOP",
-                "2 FREE MINI MOPS",
                 "FREE SHIPPING",
                 "EASY RETURN POLICY",
                 "PERFECT FOR GIFTING ",
@@ -44,9 +70,6 @@ export default function PricingSection() {
             banner: "3 MOPS",
             image: "/package3.jpg",
             features: [
-                "3 SELF-WRINGING MOPS",
-                "2 EXTRA SELF-WRINGING MOP",
-                "3 FREE MINI MOPS",
                 "FREE SHIPPING",
                 "PERFECT FOR MANAGING MULTIPLE SPACES",
                 "PERFECT FOR GIFTING ",
@@ -59,9 +82,50 @@ export default function PricingSection() {
     ]
 
     return (
-        <section className="py-4 px-4 bg-white">
-            <div className="max-w-7xl mx-auto">
+        <section className="py-2 bg-white">
 
+               {/* Free delivery banner */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="text-center mb-12 bg-gray-100 rounded-xl py-8 px-4"
+                >
+                    <h2 className="text-3xl md:text-4xl font-extrabold text-red-600 mb-3">
+                        DO YOU WANT FREE DELIVERY?
+                    </h2>
+                    <p className="font-semibold mb-4">
+                        Order Before <span className="underline">11:59pm Today</span> & Get Free Shipping
+                    </p>
+                    <div className="max-w-4xl mx-auto text-gray-800 space-y-3 mb-6">
+                        <p>We’ve arranged a special delivery service for a limited number of customers who order before the countdown hits zero.</p>
+                        <p>Instead of paying ₦4,000 for Lagos or ₦8,000 for Nationwide – order now and get free delivery.</p>
+                        <p>If you’re interested in this <span className="font-semibold">Self‑Wringing Mop</span>, then you should order now to get the free shipping.</p>
+                    </div>
+                    {/* Countdown */}
+                    <div className="flex items-center justify-center gap-4 mb-6">
+                        <div className="bg-orange-500 text-white rounded-md px-6 py-4 text-center">
+                            <div className="text-4xl font-extrabold leading-none">{pad(hours)}</div>
+                            <div className="text-sm mt-1 uppercase tracking-wide">Hours</div>
+                        </div>
+                        <div className="bg-orange-500 text-white rounded-md px-6 py-4 text-center">
+                            <div className="text-4xl font-extrabold leading-none">{pad(minutes)}</div>
+                            <div className="text-sm mt-1 uppercase tracking-wide">Minutes</div>
+                        </div>
+                        <div className="bg-orange-500 text-white rounded-md px-6 py-4 text-center">
+                            <div className="text-4xl font-extrabold leading-none">{pad(seconds)}</div>
+                            <div className="text-sm mt-1 uppercase tracking-wide">Seconds</div>
+                        </div>
+                    </div>
+                    <Button
+                        className="bg-green-500 hover:bg-green-600 text-white font-bold px-6 py-3 rounded-md shadow-md"
+                        onClick={() => router.push('/?pkg=regular#order')}
+                    >
+                        Yes!! I Want The Free Shipping
+                    </Button>
+                </motion.div>
+            <div className="max-w-7xl mx-auto px-4">
                 {/* choose your package */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -169,7 +233,7 @@ export default function PricingSection() {
                     className="grid md:grid-cols-2 gap-6 mb-10"
                 >
                     <div className="rounded-2xl border border-gray-200 p-6 bg-gray-50">
-                        <h3 className="text-2xl font-extrabold text-gray-900 mb-2">Silver Package – Buy 2, Get 1 Free!</h3>
+                        <h3 className="text-2xl font-extrabold text-gray-900 mb-2">Silver Package </h3>
                         <ul className="list-disc pl-5 space-y-2 text-gray-700">
                             <li>One for your home, one for your workplace—no stress!</li>
                             <li>Keep a spare so you never get stuck</li>
@@ -177,7 +241,7 @@ export default function PricingSection() {
                         </ul>
                     </div>
                     <div className="rounded-2xl border border-gray-200 p-6 bg-gray-50">
-                        <h3 className="text-2xl font-extrabold text-gray-900 mb-2">Gold Package – Buy 3, Get 2 Free!</h3>
+                        <h3 className="text-2xl font-extrabold text-gray-900 mb-2">Gold Package </h3>
                         <ul className="list-disc pl-5 space-y-2 text-gray-700">
                             <li>Perfect for those who manage multiple spaces</li>
                             <li>One for your home, business, and rental property—all sorted!</li>
