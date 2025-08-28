@@ -31,7 +31,7 @@ export default function ProblemSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.1 }}
-                    className="text-lg text-gray-700 mb-6"
+                    className="text-lg text-gray-700 mb-2"
                 >
                     Same here, cleaning your home shouldn't feel like a workout.
                 </motion.p>
@@ -41,7 +41,7 @@ export default function ProblemSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="text-lg text-gray-700 mb-8"
+                    className="text-lg text-gray-700 mb-2"
                 >
                     Yet, traditional mops and other cleaning methods make it harder than it needs to be.
                 </motion.p>
@@ -51,12 +51,12 @@ export default function ProblemSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.3 }}
-                    className="text-xl font-bold text-gray-900 mb-8"
+                    className="text-xl font-bold text-gray-900 mb-3"
                 >
                     Do any of these sound familiar?
                 </motion.h3>
 
-                <div className=" mx-auto mb-8">
+                <div className=" mx-auto mb-3">
                     {problemPoints.map((point, index) => (
                         <motion.div
                             key={index}
@@ -64,7 +64,7 @@ export default function ProblemSection() {
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                            className="flex items-start gap-3 mb-4 text-left"
+                            className="flex items-start gap-3 mb-2 text-left"
                         >
                             <X className="w-5 h-5 text-red-500 mt-1 flex-shrink-0" />
                             <span className="text-gray-700 text-lg">{point}</span>
@@ -77,13 +77,13 @@ export default function ProblemSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.9 }}
-                    className="text-lg text-gray-700 mb-12"
+                    className="text-lg text-gray-700 mb-6"
                 >
                     You're not alone. Thousands of people struggle daily with these issues—until they find{" "}
                     <span className="font-bold text-gray-900">THE ULTIMATE SELF-WRINGING MOP!</span>
                 </motion.p>
 
-                <div className="grid grid-cols-1 max-w-3xl mx-auto">
+                <div className="grid grid-cols-1 w-fit mx-auto">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -92,11 +92,11 @@ export default function ProblemSection() {
                         className="relative"
                     >
                         <Image
-                            src="/tired.jpg"
+                            src="/mod6.jpg"
                             alt="Traditional mop problems"
                             width={300}
                             height={300}
-                            className="rounded-lg w-full h-[500px]"
+                            className="rounded-lg w-full h-fit sm:h-[500px] sm:w-[500px]"
                         />
                     </motion.div>
                 </div>
@@ -117,7 +117,7 @@ export default function ProblemSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.1 }}
-                    className="text-lg text-gray-700 mb-6"
+                    className="text-lg text-gray-700 mb-2"
                 >
                     No bending, no wringing, no touching dirty water.
                 </motion.p>
@@ -148,7 +148,7 @@ export default function ProblemSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.1 }}
-                    className="text-lg text-gray-700 mb-6"
+                    className="text-lg text-gray-700 mb-2"
                 >
                     The mop does all the work for you. Your floors dry instantly, leaving your home fresh, clean, and spotless. Cleaning no longer feels like a chore—it’s quick, easy, and satisfying!
                 </motion.p>
@@ -157,7 +157,7 @@ export default function ProblemSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.1 }}
-                    className="text-lg text-gray-700 mb-6"
+                    className="text-lg text-gray-700 mb-2"
                 >
                     Sounds too good to be true? Not anymore!
                 </motion.p>
@@ -186,7 +186,7 @@ export default function ProblemSection() {
                 </motion.h2>
 
                 <div>
-                    <div className="grid grid-cols-1 max-w-[500px] mx-auto">
+                    <div className="grid grid-cols-1 max-w-[300px] mx-auto">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -199,7 +199,7 @@ export default function ProblemSection() {
                                 alt="Traditional mop problems"
                                 width={300}
                                 height={300}
-                                className="rounded-lg w-full h-[500px]"
+                                className="rounded-lg w-full h-fit"
                             />
                         </motion.div>
                     </div>
@@ -210,21 +210,27 @@ export default function ProblemSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.1 }}
-                    className="text-lg text-gray-700 mb-6 py-5"
+                    className="text-lg text-gray-700  py-5"
                 >
                     Say goodbye to messy, back-breaking cleaning!
                 </motion.p>
 
-                <div className="flex  mx-auto justify-center py-5">
-                <div className="grid grid-cols-1 max-w-[500px] mx-auto">
+                <div className="flex  mx-auto justify-center ">
+                    <div className="grid grid-cols-1 max-w-[400px] mx-auto">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 1.0 }}
-                            className="relative"
+                            className="relative w-full h-full mb-3 "
                         >
-                           <img decoding="async" width="220" height="291" src="https://kadimashop.store/wp-content/uploads/2025/04/fpvbadguy-mop.gif"  alt="alt" />
+                          <Image
+                                src="/mod7.jpg"
+                                alt="Traditional mop problems"
+                                width={300}
+                                height={300}
+                                className="rounded-lg w-fit h-[300px] object-contain  "
+                            />
                         </motion.div>
                     </div>
                 </div>
@@ -234,7 +240,7 @@ export default function ProblemSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.1 }}
-                    className="text-lg text-gray-700 mb-6"
+                    className="text-lg text-gray-700 "
                 >
                     This innovative mop is designed to make your cleaning effortless, faster, and more hygienic.
                 </motion.p>
@@ -243,13 +249,13 @@ export default function ProblemSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.1 }}
-                    className="text-lg text-gray-700 mb-6"
+                    className="text-lg text-gray-700 mb-2"
                 >
                     Whether you’re tackling dust, spills, or tough stains, this mop does it ALL with zero hassle!
                 </motion.p>
-                
+
                 <div className="flex  mx-auto justify-center py-5">
-                <div className="grid grid-cols-1 max-w-[500px] mx-auto">
+                    <div className="grid grid-cols-1 max-w-[500px] mx-auto">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -257,7 +263,7 @@ export default function ProblemSection() {
                             transition={{ duration: 0.6, delay: 1.0 }}
                             className="relative"
                         >
-                           <img loading="lazy" decoding="async" width="300" height="300" src="https://kadimashop.store/wp-content/uploads/2025/03/YouCut_20241106_121705107-ezgif.com-resize.webp" alt="" srcSet="https://kadimashop.store/wp-content/uploads/2025/03/YouCut_20241106_121705107-ezgif.com-resize.webp 300w, https://kadimashop.store/wp-content/uploads/2025/03/YouCut_20241106_121705107-ezgif.com-resize-150x150.webp 150w, https://kadimashop.store/wp-content/uploads/2025/03/YouCut_20241106_121705107-ezgif.com-resize-100x100.webp 100w, https://kadimashop.store/wp-content/uploads/2025/03/YouCut_20241106_121705107-ezgif.com-resize-200x200.webp 200w" sizes="(max-width: 300px) 100vw, 300px" />
+                            <img loading="lazy" decoding="async" width="300" height="300" src="https://kadimashop.store/wp-content/uploads/2025/03/YouCut_20241106_121705107-ezgif.com-resize.webp" alt="" srcSet="https://kadimashop.store/wp-content/uploads/2025/03/YouCut_20241106_121705107-ezgif.com-resize.webp 300w, https://kadimashop.store/wp-content/uploads/2025/03/YouCut_20241106_121705107-ezgif.com-resize-150x150.webp 150w, https://kadimashop.store/wp-content/uploads/2025/03/YouCut_20241106_121705107-ezgif.com-resize-100x100.webp 100w, https://kadimashop.store/wp-content/uploads/2025/03/YouCut_20241106_121705107-ezgif.com-resize-200x200.webp 200w" sizes="(max-width: 300px) 100vw, 300px" />
                         </motion.div>
                     </div>
                 </div>

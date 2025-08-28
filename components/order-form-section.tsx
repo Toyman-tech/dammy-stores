@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Shield, Truck, CreditCard, Lock } from "lucide-react"
+import { toast } from "sonner"
 
 // Plans aligned with PackagesSection
 const packages = [
@@ -52,6 +53,8 @@ export function OrderFormSection() {
     zipCode: "",
     agreeToTerms: false,
   })
+  const [submitting, setSubmitting] = useState(false)
+  const [result, setResult] = useState<{ ok?: boolean; error?: string } | null>(null)
 
   const selectedPkg = packages.find((pkg) => pkg.id === selectedPackage)
 
@@ -59,31 +62,40 @@ export function OrderFormSection() {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
-  // Use same WhatsApp flow as PackagesSection
-  const WHATSAPP_NUMBER = "+2347048667548" // can include '+'; we'll sanitize
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!selectedPkg) return
-
-    const { firstName, lastName, email, phone, address, city, state, zipCode } = formData
-    const lines = [
-      `New Order Inquiry` ,
-      `\nCustomer:` ,
-      `- Name: ${firstName} ${lastName}` ,
-      `- Email: ${email}` ,
-      `- Phone: ${phone}` ,
-      `- Address: ${address}, ${city}, ${state} ${zipCode}` ,
-      `\nSelected Package:` ,
-      `- Plan: ${selectedPkg.name}` ,
-      `- Description: ${selectedPkg.description}` ,
-      `- Price: ₦${selectedPkg.price.toLocaleString()} (Original: ₦${selectedPkg.originalPrice.toLocaleString()}, Save: ₦${(selectedPkg.savings ?? (selectedPkg.originalPrice - selectedPkg.price)).toLocaleString()})` ,
-    ]
-    const message = lines.join("\n")
-    const phoneDigits = WHATSAPP_NUMBER.replace(/[^0-9]/g, "")
-    const url = `https://api.whatsapp.com/send?phone=${phoneDigits}&text=${encodeURIComponent(message)}`
-    if (typeof window !== "undefined") {
-      window.open(url, "_blank")
+    setSubmitting(true)
+    setResult(null)
+    try {
+      const payload = {
+        selectedPackage: { id: selectedPkg.id, name: selectedPkg.name },
+        packageDetails: {
+          description: selectedPkg.description,
+          price: selectedPkg.price,
+          originalPrice: selectedPkg.originalPrice,
+          savings: selectedPkg.savings ?? (selectedPkg.originalPrice - selectedPkg.price),
+        },
+        formData,
+      }
+      const res = await fetch("/api/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data?.error || "Failed to send order")
+      setResult({ ok: true })
+      toast.success("Order submitted successfully", {
+        description: `${selectedPkg.name} - ₦${selectedPkg.price.toLocaleString()}`,
+      })
+    } catch (err: any) {
+      setResult({ error: err?.message || "Unknown error" })
+      toast.error("Failed to submit order", {
+        description: err?.message || "Unknown error",
+      })
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -99,7 +111,7 @@ export function OrderFormSection() {
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-6 text-balance">
             Order Your
-            <span className="text-primary"> CleanPro Mop</span> Today
+            <span className="text-primary">  Mop</span> Today
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto text-pretty">
             Complete your order below and start experiencing the future of clean. Free shipping and 30-day money-back
@@ -236,9 +248,15 @@ export function OrderFormSection() {
                 </Label>
               </div>
 
-              <Button type="submit" size="lg" className="w-full text-lg py-6" disabled={!formData.agreeToTerms}>
-                Order via WhatsApp - ₦{selectedPkg?.price.toLocaleString()}
+              <Button type="submit" size="lg" className="w-full text-lg py-6" disabled={!formData.agreeToTerms || submitting}>
+                {submitting ? "Sending Order..." : `Place Order - ₦${selectedPkg?.price.toLocaleString()}`}
               </Button>
+              {result?.ok && (
+                <p className="text-green-600 text-sm">Order sent successfully. We'll contact you shortly.</p>
+              )}
+              {result?.error && (
+                <p className="text-red-600 text-sm">Failed to send order: {result.error}</p>
+              )}
             </form>
           </motion.div>
 

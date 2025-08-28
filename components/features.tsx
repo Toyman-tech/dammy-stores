@@ -4,9 +4,10 @@ import { motion } from "framer-motion"
 import { Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
-import { buildPackageMessage, openWhatsApp } from "@/lib/order"
+import { useRouter } from "next/navigation"
 
 export default function FeaturesSection() {
+    const router = useRouter()
     return (
         <div>
             <section className="bg-[#3D8D7A] py-16 px-4">
@@ -41,13 +42,13 @@ export default function FeaturesSection() {
                                 </p>
                             </div>
                         </div>
-                        <div className="max-sm:flex relative max-sm:justify-center max-sm:w-full">
+                        <div className="max-sm:flex relative max-sm:justify-center max-sm:w-full max-w-[500px]">
                             <Image
-                                src="/why1.jpg"
+                                src="/mod1.jpg"
                                 alt="Traditional mop problems"
-                                width={500} 
+                                width={300}
                                 height={300}
-                                className="rounded-lg h-[350px] w-[300px]"
+                                className="rounded-lg object-contain h-[300px] w-[300px]"
                             />
                         </div>
                     </motion.div>
@@ -76,9 +77,9 @@ export default function FeaturesSection() {
                             <Image
                                 src="/why2.jpg"
                                 alt="Traditional mop problems"
-                                width={500}
+                                width={300}
                                 height={300}
-                                className="rounded-lg h-[350px] w-[300px]"
+                                className="rounded-lg object-contain h-[300px] w-[300px]"
                             />
                         </div>
                     </motion.div>
@@ -107,9 +108,9 @@ export default function FeaturesSection() {
                             <Image
                                 src="/why3.jpg"
                                 alt="Traditional mop problems"
-                                width={500}
+                                width={300}
                                 height={300}
-                                className="rounded-lg h-[350px] w-[300px]"
+                                className="rounded-lg object-contain h-[300px] w-[300px]"
                             />
                         </div>
                     </motion.div>
@@ -138,9 +139,9 @@ export default function FeaturesSection() {
                             <Image
                                 src="/why4.jpg"
                                 alt="Traditional mop problems"
-                                width={500}
+                                width={300}
                                 height={300}
-                                className="rounded-lg h-[350px] w-[300px]"
+                                className="rounded-lg object-contain h-[300px] w-[300px]"
                             />
                         </div>
                     </motion.div>
@@ -167,11 +168,11 @@ export default function FeaturesSection() {
                         </div>
                         <div className="max-sm:flex relative max-sm:justify-center max-sm:w-full">
                             <Image
-                                src="/why2.jpg"
+                                src="/mod5.jpg"
                                 alt="Traditional problems"
-                                width={500}
+                                width={300}
                                 height={300}
-                                className="rounded-lg h-[350px] w-[300px]"
+                                className="rounded-lg object-contain h-[300px] w-[300px]"
                             />
                         </div>
                     </motion.div>
@@ -200,9 +201,9 @@ export default function FeaturesSection() {
                             <Image
                                 src="/why6.jpg"
                                 alt="Traditional mop problems"
-                                width={500}
+                                width={300}
                                 height={300}
-                                className="rounded-lg h-[350px] w-[300px]"
+                                className="rounded-lg object-contain h-[300px] w-[300px]"
                             />
                         </div>
                     </motion.div>
@@ -231,9 +232,9 @@ export default function FeaturesSection() {
                             <Image
                                 src="/why7.jpg"
                                 alt="Traditional mop problems"
-                                width={500}
+                                width={300}
                                 height={300}
-                                className="rounded-lg h-[350px] w-[300px]"
+                                className="rounded-lg object-contain h-[300px] w-[300px]"
                             />
                         </div>
                     </motion.div>
@@ -262,9 +263,9 @@ export default function FeaturesSection() {
                             <Image
                                 src="/why8.jpg"
                                 alt="Traditional mop problems"
-                                width={500}
+                                width={300}
                                 height={300}
-                                className="rounded-lg h-[350px] w-[300px]"
+                                className="rounded-lg object-contain h-[300px] w-[300px]"
                             />
                         </div>
                     </motion.div>
@@ -402,13 +403,7 @@ export default function FeaturesSection() {
                             <div className="mt-8 w-full justify-center flex">
                                 <Button
                                     className="max-w-[250px] shadow-2xl shadow-black w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 text-lg rounded-lg"
-                                    onClick={() => {
-                                        const message = buildPackageMessage({
-                                            name: "Self-Wringing Mop",
-                                            source: "FeaturesSection",
-                                        })
-                                        openWhatsApp(message)
-                                    }}
+                                    onClick={() => router.push("/?pkg=regular#order")}
                                 >
                                     Place Your Order
                                 </Button>
@@ -438,42 +433,18 @@ export default function FeaturesSection() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        className="relative w-full max-w-4xl mx-auto cursor-pointer group"
-                        onClick={() => window.open('https://www.youtube.com/watch?v=zxouUSrFLbs', '_blank')}
+                        className="relative w-full max-w-4xl mx-auto"
                     >
-                        {/* Video thumbnail container */}
                         <div className="relative aspect-video w-full rounded-lg overflow-hidden shadow-2xl">
-                            {/* Background image */}
-                            <div
-                                className="w-full h-full bg-cover bg-center bg-no-repeat transition-transform duration-300 group-hover:scale-105"
-                                style={{
-                                    backgroundImage: 'url("https://i.ytimg.com/vi/zxouUSrFLbs/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AHOBYACgAqKAgwIABABGFMgXChlMA8=&rs=AOn4CLDBeQUwKtSa5whDhSyvhy9nIE3yAw")'
-                                }}
+                            <iframe
+                                className="absolute inset-0 w-full h-full"
+                                src="https://www.youtube.com/embed/zxouUSrFLbs?rel=0&modestbranding=1"
+                                title="Watch the Ultimate Mop in Action!"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerPolicy="strict-origin-when-cross-origin"
+                                allowFullScreen
                             />
-
-                            {/* Dark overlay */}
-                            <div className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-40 transition-all duration-300" />
-
-                            {/* Play button */}
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center shadow-lg transform transition-transform duration-300 group-hover:scale-110">
-                                    <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18c.62-.39.62-1.29 0-1.69L9.54 5.98C8.87 5.55 8 6.03 8 6.82z" />
-                                    </svg>
-                                </div>
-                            </div>
-
-                            {/* YouTube logo */}
-                            <div className="absolute top-4 right-4 opacity-80">
-                                <svg className="w-8 h-8 text-red-600" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                                </svg>
-                            </div>
-
-                            {/* Video title overlay */}
-                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-transparent to-transparent p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <h3 className="text-white text-lg font-semibold">Watch the Ultimate Mop in Action!</h3>
-                            </div>
                         </div>
                     </motion.div>
 
@@ -490,13 +461,7 @@ export default function FeaturesSection() {
                         </p>
                         <Button
                             className="bg-[#FF0000] hover:bg-red-700 text-white font-bold py-4 px-8 text-lg rounded-lg shadow-lg"
-                            onClick={() => {
-                                const message = buildPackageMessage({
-                                    name: "Self-Wringing Mop",
-                                    source: "FeaturesSection-VideoCTA",
-                                })
-                                openWhatsApp(message)
-                            }}
+                            onClick={() => router.push("/?pkg=regular#order")}
                         >
                             Order Yours Today
                         </Button>

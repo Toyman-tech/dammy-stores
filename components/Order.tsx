@@ -2,16 +2,19 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { buildOrderFormMessage, openWhatsApp, getWhatsAppDigits } from "@/lib/order"
+import { getWhatsAppDigits } from "@/lib/order"
+import { toast } from "sonner"
+import { useSearchParams } from "next/navigation"
 
 export default function OrderFormSection() {
+  const searchParams = useSearchParams()
   const [formData, setFormData] = useState({
     firstName: "",
     email: "",
@@ -23,29 +26,116 @@ export default function OrderFormSection() {
     order: "",
     availability: "",
   })
+  const [submitting, setSubmitting] = useState(false)
+  const [result, setResult] = useState<{ ok?: boolean; error?: string } | null>(null)
+
+  // Preselect package from query string e.g. /?pkg=regular#order
+  useEffect(() => {
+    const pkg = (searchParams.get("pkg") || "").toLowerCase()
+    const valid = ["regular", "silver", "gold", "more"] as const
+    if (pkg && (valid as readonly string[]).includes(pkg) && formData.order !== pkg) {
+      setFormData((prev) => ({ ...prev, order: pkg }))
+    }
+  }, [searchParams, formData.order])
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const message = buildOrderFormMessage({
-      firstName: formData.firstName,
-      email: formData.email,
-      phoneNo: formData.phoneNo,
-      whatsappNo: formData.whatsappNo,
-      state: formData.state,
-      city: formData.city,
-      deliveryAddress: formData.deliveryAddress,
-      order: formData.order,
-      availability: formData.availability,
-    })
-    openWhatsApp(message)
+    setSubmitting(true)
+    setResult(null)
+
+    // Map selected order to package details
+    const pkgMap: Record<string, { id: string; name: string; description: string; price: number; originalPrice: number; savings: number } > = {
+      regular: {
+        id: "regular",
+        name: "REGULAR",
+        description: "Buy 1 get 1 mini mop free",
+        price: 18000,
+        originalPrice: 23000,
+        savings: 5000,
+      },
+      silver: {
+        id: "silver",
+        name: "SILVER",
+        description: "Buy 2 get one free + 2 free mini Mop",
+        price: 32000,
+        originalPrice: 46000,
+        savings: 14000,
+      },
+      gold: {
+        id: "gold",
+        name: "GOLD",
+        description: "Buy 3 get 2 free + 3 free mini Mop",
+        price: 45000,
+        originalPrice: 69000,
+        savings: 24000,
+      },
+      more: {
+        id: "more",
+        name: "MORE",
+        description: "Custom order (see details)",
+        price: 0,
+        originalPrice: 0,
+        savings: 0,
+      },
+    }
+
+    const selected = pkgMap[formData.order]
+    if (!selected) {
+      setSubmitting(false)
+      setResult({ error: "Please select an order option." })
+      return
+    }
+
+    try {
+      const payload = {
+        selectedPackage: { id: selected.id, name: selected.name },
+        packageDetails: {
+          description: selected.description,
+          price: selected.price,
+          originalPrice: selected.originalPrice,
+          savings: selected.savings,
+        },
+        formData: {
+          firstName: formData.firstName,
+          lastName: "",
+          email: formData.email,
+          phone: formData.phoneNo,
+          address: formData.deliveryAddress,
+          city: formData.city,
+          state: formData.state,
+          zipCode: "",
+          whatsappNo: formData.whatsappNo,
+          availability: formData.availability,
+        },
+      }
+
+      const res = await fetch("/api/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data?.error || "Failed to send order")
+      setResult({ ok: true })
+      toast.success("Order submitted successfully", {
+        description: `${selected.name} - ₦${selected.price.toLocaleString()}`,
+      })
+    } catch (err: any) {
+      setResult({ error: err?.message || "Unknown error" })
+      toast.error("Failed to submit order", {
+        description: err?.message || "Unknown error",
+      })
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
-    <section className="py-16 px-4 bg-white">
+    <section id="order" className="py-16 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -208,19 +298,19 @@ export default function OrderFormSection() {
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="regular" id="regular" />
                 <Label htmlFor="regular" className="text-base cursor-pointer">
-                  1 Self-Wringing Mop + 1 mini mop ⇒ ₦34,000
+                  1 Mop for ⇒ ₦18,000
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="silver" id="silver" />
                 <Label htmlFor="silver" className="text-base cursor-pointer">
-                  2+1 Self-Wringing Mop + 2 mini mops ⇒ ₦68,000
+                  2 Mops for ⇒ ₦32,000
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="gold" id="gold" />
                 <Label htmlFor="gold" className="text-base cursor-pointer">
-                  3+2 Self-Wringing Mop + 3 mini mops ⇒ ₦102,000
+                  3 Mops for ⇒ ₦45,000
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
@@ -264,13 +354,20 @@ export default function OrderFormSection() {
           </div>
 
           {/* Submit Button */}
-          <div className="text-center pt-6">
+          <div className="text-center pt-6 space-y-2">
             <Button
               type="submit"
+              disabled={submitting}
               className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg font-medium rounded-none"
             >
-              Place Your Order
+              {submitting ? "Sending Order..." : "Place Your Order"}
             </Button>
+            {result?.ok && (
+              <p className="text-green-600 text-sm">Order sent successfully. We'll contact you shortly.</p>
+            )}
+            {result?.error && (
+              <p className="text-red-600 text-sm">Failed to send order: {result.error}</p>
+            )}
           </div>
         </motion.form>
 

@@ -7,6 +7,7 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules"
 import { ChevronLeft, ChevronRight, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 
 // Import Swiper styles
 import "swiper/css"
@@ -38,10 +39,23 @@ const productImages = [
     src: "/hero6.jpg",
     alt: "CleanPro Mop in action",
   },
+  {
+    src: "/mod1.jpg",
+    alt: "CleanPro Mop in action",
+  },
+  {
+    src: "/mod6.jpg",
+    alt: "CleanPro Mop in action",
+  },
+  {
+    src: "/why6.jpg",
+    alt: "CleanPro Mop in action",
+  },
 ]
 
 export  function HeroSection() {
   const [activeSlide, setActiveSlide] = useState(0)
+  const router = useRouter()
 
   return (
     <section className="relative min-h-screen overflow-hidden">
@@ -160,6 +174,7 @@ export  function HeroSection() {
           <Button
             size="lg"
             className="bg-[#3EC381] hover:bg-green-600 text-white font-bold text-xl px-12 py-6 rounded-none shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            onClick={() => router.push("/?pkg=regular#order")}
           >
             Place Your Order
           </Button>

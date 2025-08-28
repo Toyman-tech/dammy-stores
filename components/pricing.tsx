@@ -4,25 +4,26 @@ import { motion } from "framer-motion"
 import { Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
-import { buildPackageMessage, openWhatsApp } from "@/lib/order"
+import { useRouter } from "next/navigation"
 
 export default function PricingSection() {
+    const router = useRouter()
     const pricingTiers = [
         {
             name: "REGULAR",
             topDeal: "BUY 1 GET 1 MINI MOP FREE",
-            banner: "BUY 1 GET 1 MINI MOP FREE",
+            banner: "1 MOP",
             image: "/package1.jpg",
             features: ["ONE SELF-WRINGING MOP", "ONE FREE MINI MOP", "FREE SHIPPING", "EASY RETURN POLICY"],
-            price: "₦34,000",
-            normalPrice: "₦45,000",
-            savings: "₦11,000",
+            price: "₦18,000",
+            normalPrice: "₦23,000",
+            savings: "₦5,000",
             isPopular: false,
         },
         {
             name: "SILVER",
             topDeal: "BUY 2 GET ONE FREE + 2 FREE MINI MOP",
-            banner: "BUY 2 GET 1 FREE + 2 MINI MOPS",
+            banner: "2 MOPS",
             image: "/package2.jpg",
             features: [
                 "2 SELF-WRINGING MOPS",
@@ -32,15 +33,15 @@ export default function PricingSection() {
                 "EASY RETURN POLICY",
                 "PERFECT FOR GIFTING ",
             ],
-            price: "₦68,000",
-            normalPrice: "₦102,000",
-            savings: "₦34,000",
+            price: "₦32,000",
+            normalPrice: "₦46,000",
+            savings: "₦14,000",
             isPopular: true,
         },
         {
             name: "GOLD",
-            topDeal: "BUY 3 GET 2 FREE + 3 FREE MINI MOP",
-            banner: "BUY 3 GET 2 FREE + 3 MINI MOPS",
+            topDeal: "3 MOPS",
+            banner: "3 MOPS",
             image: "/package3.jpg",
             features: [
                 "3 SELF-WRINGING MOPS",
@@ -50,15 +51,15 @@ export default function PricingSection() {
                 "PERFECT FOR MANAGING MULTIPLE SPACES",
                 "PERFECT FOR GIFTING ",
             ],
-            price: "₦102,000",
-            normalPrice: "₦170,000",
-            savings: "₦68,000",
+            price: "₦45,000",
+            normalPrice: "₦69,000",
+            savings: "₦24,000",
             isPopular: false,
         },
     ]
 
     return (
-        <section className="py-16 px-4 bg-white">
+        <section className="py-4 px-4 bg-white">
             <div className="max-w-7xl mx-auto">
 
                 {/* choose your package */}
@@ -144,7 +145,7 @@ export default function PricingSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-12"
+                    className="text-center mb-6"
                 >
                     <h2 className="text-3xl md:text-4xl pt-5  font-bold text-[#D28600] mb-2">
                         Get More, Save More! (And Never Worry About Cleaning Again!)
@@ -155,7 +156,7 @@ export default function PricingSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="text-lg m-5 text-gray-700 mb-6"
+                    className="text-lg m-5 text-gray-700 mb-3"
                 >
                     Instead of buying one now and realizing later that you need another, grab a bigger package and save BIG!
                 </motion.p>
@@ -217,7 +218,7 @@ export default function PricingSection() {
                                 {/* Header */}
                                 <div className="text-center mb-4">
                                     <h3 className="text-white text-2xl font-bold mb-2">{tier.name}</h3>
-                                    <p className="text-white text-sm font-medium">{tier.topDeal}</p>
+                                    <p className="text-white text-sm font-medium">{tier.banner}</p>
                                 </div>
 
                                 {/* Red Banner */}
@@ -258,14 +259,7 @@ export default function PricingSection() {
                                 {/* CTA Button */}
                                 <Button
                                     className="w-full bg-[#3EC381] hover:bg-green-600 text-white font-bold py-3 rounded-none mb-4"
-                                    onClick={() => {
-                                        const message = buildPackageMessage({
-                                            name: tier.name,
-                                            price: tier.price,
-                                            source: "PricingSection",
-                                        })
-                                        openWhatsApp(message)
-                                    }}
+                                    onClick={() => router.push(`/?pkg=${tier.name.toLowerCase()}#order`)}
                                 >
                                     Place Your Order
                                 </Button>
