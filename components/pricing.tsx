@@ -23,7 +23,7 @@ export default function PricingSection() {
         }
         if (!end) {
             end = now + TWELVE_HOURS * 1000
-            try { window.localStorage.setItem(key, String(end)) } catch {}
+            try { window.localStorage.setItem(key, String(end)) } catch { }
         }
         setRemaining(Math.max(0, Math.floor((end - Date.now()) / 1000)))
         const id = setInterval(() => {
@@ -42,8 +42,8 @@ export default function PricingSection() {
             name: "REGULAR",
             topDeal: "BUY 1 GET 1 MINI MOP FREE",
             banner: "1 MOP",
-            image: "/package1.jpg",
-            features: [ "FREE SHIPPING", "EASY RETURN POLICY"],
+            image: "/package1.png",
+            features: ["FREE SHIPPING", "EASY RETURN POLICY"],
             price: "₦18,000",
             normalPrice: "₦23,000",
             savings: "₦5,000",
@@ -84,47 +84,47 @@ export default function PricingSection() {
     return (
         <section className="py-2 bg-white">
 
-               {/* Free delivery banner */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-12 bg-gray-100 rounded-xl py-8 px-4"
+            {/* Free delivery banner */}
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="text-center mb-12 bg-gray-100 rounded-xl py-8 px-4"
+            >
+                <h2 className="text-3xl md:text-4xl font-extrabold text-red-600 mb-3">
+                    DO YOU WANT FREE DELIVERY?
+                </h2>
+                <p className="font-semibold mb-4">
+                    Order Before <span className="underline">11:59pm Today</span> & Get Free Shipping
+                </p>
+                <div className="max-w-4xl mx-auto text-gray-800 space-y-3 mb-6">
+                    <p>We’ve arranged a special delivery service for a limited number of customers who order before the countdown hits zero.</p>
+                    <p>Instead of paying ₦4,000 for Lagos or ₦8,000 for Nationwide – order now and get free delivery.</p>
+                    <p>If you’re interested in this <span className="font-semibold">Self‑Wringing Mop</span>, then you should order now to get the free shipping.</p>
+                </div>
+                {/* Countdown */}
+                <div className="flex items-center justify-center gap-4 mb-6">
+                    <div className="bg-orange-500 text-white rounded-md px-6 py-4 text-center">
+                        <div className="text-4xl font-extrabold leading-none">{pad(hours)}</div>
+                        <div className="text-sm mt-1 uppercase tracking-wide">Hours</div>
+                    </div>
+                    <div className="bg-orange-500 text-white rounded-md px-6 py-4 text-center">
+                        <div className="text-4xl font-extrabold leading-none">{pad(minutes)}</div>
+                        <div className="text-sm mt-1 uppercase tracking-wide">Minutes</div>
+                    </div>
+                    <div className="bg-orange-500 text-white rounded-md px-6 py-4 text-center">
+                        <div className="text-4xl font-extrabold leading-none">{pad(seconds)}</div>
+                        <div className="text-sm mt-1 uppercase tracking-wide">Seconds</div>
+                    </div>
+                </div>
+                <Button
+                    className="bg-green-500 hover:bg-green-600 text-white font-bold px-6 py-3 rounded-md shadow-md"
+                    onClick={() => router.push('/?pkg=regular#order')}
                 >
-                    <h2 className="text-3xl md:text-4xl font-extrabold text-red-600 mb-3">
-                        DO YOU WANT FREE DELIVERY?
-                    </h2>
-                    <p className="font-semibold mb-4">
-                        Order Before <span className="underline">11:59pm Today</span> & Get Free Shipping
-                    </p>
-                    <div className="max-w-4xl mx-auto text-gray-800 space-y-3 mb-6">
-                        <p>We’ve arranged a special delivery service for a limited number of customers who order before the countdown hits zero.</p>
-                        <p>Instead of paying ₦4,000 for Lagos or ₦8,000 for Nationwide – order now and get free delivery.</p>
-                        <p>If you’re interested in this <span className="font-semibold">Self‑Wringing Mop</span>, then you should order now to get the free shipping.</p>
-                    </div>
-                    {/* Countdown */}
-                    <div className="flex items-center justify-center gap-4 mb-6">
-                        <div className="bg-orange-500 text-white rounded-md px-6 py-4 text-center">
-                            <div className="text-4xl font-extrabold leading-none">{pad(hours)}</div>
-                            <div className="text-sm mt-1 uppercase tracking-wide">Hours</div>
-                        </div>
-                        <div className="bg-orange-500 text-white rounded-md px-6 py-4 text-center">
-                            <div className="text-4xl font-extrabold leading-none">{pad(minutes)}</div>
-                            <div className="text-sm mt-1 uppercase tracking-wide">Minutes</div>
-                        </div>
-                        <div className="bg-orange-500 text-white rounded-md px-6 py-4 text-center">
-                            <div className="text-4xl font-extrabold leading-none">{pad(seconds)}</div>
-                            <div className="text-sm mt-1 uppercase tracking-wide">Seconds</div>
-                        </div>
-                    </div>
-                    <Button
-                        className="bg-green-500 hover:bg-green-600 text-white font-bold px-6 py-3 rounded-md shadow-md"
-                        onClick={() => router.push('/?pkg=regular#order')}
-                    >
-                        Yes!! I Want The Free Shipping
-                    </Button>
-                </motion.div>
+                    Yes!! I Want The Free Shipping
+                </Button>
+            </motion.div>
             <div className="max-w-7xl mx-auto px-4">
                 {/* choose your package */}
                 <motion.div
@@ -146,7 +146,7 @@ export default function PricingSection() {
                     transition={{ duration: 0.6, delay: 0.1 }}
                     className="text-lg text-gray-700 mb-6"
                 >
-                    I know you’re probably thinking, “I just need one mop for my home.” But let’s pause for a second—have you considered all the places you might actually need one?
+                    You might think you only need one… until you realize you also need to mop.
                 </motion.p>
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}
@@ -155,7 +155,7 @@ export default function PricingSection() {
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className="text-lg text-gray-700 mb-6"
                 >
-                    🏡 Your Home – Of course, that’s a given. But what happens when your mop gets dirty or needs washing? Having a backup saves you the hassle.
+                    🏡 Your Home
                 </motion.p>
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}
@@ -164,7 +164,7 @@ export default function PricingSection() {
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className="text-lg text-gray-700 mb-6"
                 >
-                    🛍 Your Business or Shop – Whether it’s a salon, boutique, or grocery store, a clean space makes your customers feel comfortable. A messy floor? That’s bad for business.
+                    🛍 Your shop or salon.
                 </motion.p>
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}
@@ -182,7 +182,7 @@ export default function PricingSection() {
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className="text-lg text-gray-700 mb-6"
                 >
-                    ⛪️🕌 Churches & Mosques – High-traffic places need frequent cleaning. This mop makes the process quick, efficient, and stress-free.
+                    ⛪️🕌 Your Airbnb or mosque.
                 </motion.p>
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}
@@ -191,7 +191,7 @@ export default function PricingSection() {
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className="text-lg text-gray-700 mb-6"
                 >
-                    🍽 Restaurants & Cafés – Spills happen daily. A mop that cleans effortlessly means you or your staff won’t waste time struggling with dirty floors.
+                    🍽 Your restaurant or café.
                 </motion.p>
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}
@@ -200,7 +200,7 @@ export default function PricingSection() {
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className="text-lg text-gray-700 mb-6"
                 >
-                    🏫 Schools & Offices – With people walking in and out all day, a hygienic, hands-free cleaning tool keeps everything looking neat without much effort.
+                    🏫 Your school, office or clinic.
                 </motion.p>
 
                 {/* Header */}
@@ -212,7 +212,7 @@ export default function PricingSection() {
                     className="text-center mb-6"
                 >
                     <h2 className="text-3xl md:text-4xl pt-5  font-bold text-[#D28600] mb-2">
-                        Get More, Save More! (And Never Worry About Cleaning Again!)
+                        SO WHY NOT GET MORE AND SAVE BIG?
                     </h2>
                 </motion.div>
                 <motion.p

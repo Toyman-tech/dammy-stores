@@ -203,7 +203,7 @@ export default function OrderFormSection() {
               TRAVELING OUT OF TOWN.
             </p>
 
-            <p className="text-base font-medium">PLACE YOUR ORDER NOW AS THE PRICE AND BONUS GO OFF IN...</p>
+            <p className="text-base font-medium">PLACE YOUR ORDER NOW AS THE PRICE GO OFF IN...</p>
             {/* Countdown */}
             <div className="flex items-center justify-center gap-4 mt-4">
               <div className="bg-orange-500 text-white rounded-md px-6 py-4 text-center">

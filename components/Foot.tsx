@@ -24,10 +24,10 @@ const Foot = () => {
             </div>
             <div className="leading-tight text-sm md:text-[20px] max-sm:text-center truncate">
               <p className="font-semibold text-white truncate">
-                🔥Free GIFT for you if you HURRY NOW.
+                🔥Free DELIVERY for you if you HURRY NOW.
               </p>
               <p className=" truncate">
-                Gift going out of stock! 😔😔
+                Product going out of stock! 😔😔
               </p>
             </div>
           </div>

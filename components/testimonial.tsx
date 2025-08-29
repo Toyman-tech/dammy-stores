@@ -5,49 +5,41 @@ import { Star } from "lucide-react"
 
 const testimonials = [
   {
-    name: "Jessica O.",
-    location: "Lagos",
+    name: "Ashley A.",
+    location: "Ogun State",
     rating: 5,
     image: "/test1.jpg",
-    text: "It's a great product! The quality is great, and it feels sturdy yet lightweight. The mop head is super soft yet highly absorbent. For a lazy person like me, it is a worthy purchase. Wringing out the mop is simple and mess-free. Overall, this mop has made cleaning so much easier and quicker. No more backpains with old mopping clothes.",
+    text: "I initially thought it was just another overhyped product, but i ordered the 2 for home and shop. Honestly, this mop is different. My wife even thanked me for the first time for buying a ‘cleaning tool’ LOL",
   },
   {
-    name: "Tunde A.",
-    location: "Abuja",
+    name: "Solape M.",
+    location: "Lagos State",
     rating: 4.5,
     image: "/test2.jpg",
-    text: "Initially I was doubtful to buy this but after I received it I liked it. Now no need to put hands in water to spin. Design and quality is good and spinning is fast and durable enough. I use this for mopping floors and this works pretty well to clean dirt and stains and gets dry fastly.",
+    text: "Before my nails used to break or get ruined anytime i mop. This Easyclean Mop is different. i don’t touch dirty water again, and my nails are still intact. Girls this one is for us!",
   },
   {
-    name: "Miriam E.",
-    location: "Port Harcourt",
+    name: "Johnson P.",
+    location: "Lagos State",
     rating: 5,
     image: "/test3.jpg",
-    text: "We are using it since few days sweep the floor of dust which is main issue summer season. It's really lightweight also handle length is enough to use. The quality is superb. the microfiber head absorbs dust and dirt efficiently, leaving floors spotless. Easy to use. reasonable price. Highly recommended",
+    text: "I run a bar, and there’s always something spilling. This mop handles everything sharp sharp. I bought 3 and shared It between my home and my shop. Worth every naira! ",
   },
   {
-    name: "Emeka O.",
-    location: "Enugu",
+    name: "Mariam T.",
+    location: "Ibadan",
     rating: 5,
     image: "/test4.jpg",
-    text: "I really like this product .. Perfect standing mop for easy cleaning the floors. The height of the mop is good and can be adjusted. The good part is that no need to wet hand to squeeze.Highly recommended ."
+    text: "I work in a hotel, and cleaning the rooms was always stressful, especially squeezing the mop by hand. This mop changed everything. I’m finishing my rounds faster and don’t get back pain anymore. Management even asked where i got it from!"
    },
    
   {
-    name: "Aisha K.",
-    location: "Kano",
+    name: "Chucks P.",
+    location: "Lagos State",
     rating: 5,
     image: "/s5.jpg",
-    text: "Excellent mop, very durable material. It’s incredibly user-friendly and simplifies daily tasks. You won’t even need to use a broom because it functions as both a dry and a wet mop. The substance of the cloth is so silky that it glides across the floor and cleans even more effectively..Recommended"
+    text: "As a guy living alone, i hate stress. i used to just use tissue and my foot to clean spills 🙈. But this mop has made life way easier. It’s so simple to use and I don’t even need to bend or touch anything dirty. clean the floor in seconds."
   },
-  
-  {
-    name: "Mrs. Oladipo",
-    location: "Ibadan",
-    rating: 5,
-    image: "/test6.jpg",
-    text: "The mop clear is so amazing and so easy to use it is having build in water dryer which pulls out all the water and easliy can be used at anytime. I like the mop very much. It is much household need."
-     },
 ]
 
 const StarRating = ({ rating }: { rating: number }) => {

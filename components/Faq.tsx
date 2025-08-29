@@ -26,11 +26,6 @@ const faqs = [
       "Unlike cheap mops that wear out fast, our washable & reusable microfiber head lasts for months before needing a replacement—saving you money!",
   },
   {
-    question: "Is The Free Bonus Really Free?",
-    answer:
-      "Yes! The ₦20,000 Mini Mop is completely FREE for the first 17 customers today. Once they're gone, this offer disappears.",
-  },
-  {
     question: "Why Should I Buy Now And Not Later?",
     answer:
       "This special discount + free bonus is only available today before 11:59 PM. If you return tomorrow, the free gift might be gone, and the price may increase. Don't wait!",
