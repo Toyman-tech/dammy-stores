@@ -42,7 +42,7 @@ export default function PricingSection() {
             name: "REGULAR",
             topDeal: "BUY 1 GET 1 MINI MOP FREE",
             banner: "1 MOP",
-            image: "/package1.png",
+            image: "/onemop1.png",
             features: ["FREE SHIPPING", "EASY RETURN POLICY"],
             price: "₦18,000",
             normalPrice: "₦23,000",
@@ -53,7 +53,7 @@ export default function PricingSection() {
             name: "SILVER",
             topDeal: "BUY 2 GET ONE FREE + 2 FREE MINI MOP",
             banner: "2 MOPS",
-            image: "/package2.jpg",
+            image: "/mop2.png",
             features: [
                 "FREE SHIPPING",
                 "EASY RETURN POLICY",
@@ -68,7 +68,7 @@ export default function PricingSection() {
             name: "GOLD",
             topDeal: "3 MOPS",
             banner: "3 MOPS",
-            image: "/package3.jpg",
+            image: "/mop3.png",
             features: [
                 "FREE SHIPPING",
                 "PERFECT FOR MANAGING MULTIPLE SPACES",
