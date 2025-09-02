@@ -38,8 +38,9 @@ export async function POST(req: Request) {
         <h3>Customer</h3>
         <ul>
           <li><strong>Name:</strong> ${fullName}</li>
-          <li><strong>Email:</strong> ${formData.email}</li>
+          <li><strong>Email:</strong> ${formData.email || 'Not provided'}</li>
           <li><strong>Phone:</strong> ${formData.phone}</li>
+          <li><strong>WhatsApp:</strong> ${formData.whatsappNo || 'Not provided'}</li>
           <li><strong>Address:</strong> ${formData.address}, ${formData.city}, ${formData.state} ${formData.zipCode}</li>
         </ul>
         <h3>Selected Package</h3>
@@ -50,6 +51,10 @@ export async function POST(req: Request) {
           <li><strong>Original:</strong> ₦${Number(packageDetails.originalPrice).toLocaleString()}</li>
           <li><strong>Savings:</strong> ₦${Number(packageDetails.savings).toLocaleString()}</li>
         </ul>
+         <h3>Selected Order Details</h3>
+        <ul>
+          <li><strong>Availability:</strong> ${formData.availability}</li>
+       </ul>
         <p>Submitted at: ${new Date().toISOString()}</p>
       </div>
     `;

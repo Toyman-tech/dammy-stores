@@ -161,10 +161,28 @@ export default function OrderFormSection() {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data?.error || "Failed to send order")
-      setResult({ ok: true })
-      toast.success("Order submitted successfully", {
-        description: `${selected.name} - ₦${selected.price.toLocaleString()}`,
-      })
+      
+      // Send Facebook CAPI event
+      try {
+        await fetch('/api/fb-capi', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            event: 'Purchase',
+            email: formData.email,
+            value: selected.price,
+            currency: 'NGN',
+            // Add any additional tracking data needed
+          }),
+        });
+      } catch (error) {
+        console.error('Error sending Facebook event:', error);
+        // Don't fail the order if FB tracking fails
+      }
+      
+      // Redirect to thank you page with order details
+      const orderNumber = `ORD-${Date.now().toString().slice(-8)}`
+      window.location.href = `/thank-you?order=${orderNumber}&amount=${selected.price}&package=${encodeURIComponent(selected.name)}`
     } catch (err: any) {
       setResult({ error: err?.message || "Unknown error" })
       toast.error("Failed to submit order", {
@@ -172,6 +190,17 @@ export default function OrderFormSection() {
       })
     } finally {
       setSubmitting(false)
+      setFormData({
+        firstName: "",
+        email: "",
+        phoneNo: "",
+        whatsappNo: "",
+        state: "",
+        city: "",
+        deliveryAddress: "",
+        order: "",
+        availability: "",
+      })  
     }
   }
 
@@ -256,7 +285,6 @@ export default function OrderFormSection() {
                 placeholder="Email Address"
                 value={formData.email}
                 onChange={(e) => handleInputChange("email", e.target.value)}
-                required
                 className="h-12"
               />
             </div>
