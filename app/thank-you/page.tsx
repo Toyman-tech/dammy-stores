@@ -90,7 +90,7 @@ function ThankYouContent() {
 
           <div className="space-y-4 pt-2">
             <a
-              href={`https://wa.me/${getWhatsAppDigits()}?text=Hello%20Kadima%20Shop%2C%20I%20just%20placed%20an%20order%20%23${orderDetails.orderNumber}`}
+              href={`https://wa.me/${getWhatsAppDigits()}?text=Hello%20Dammy%20Store%2C%20I%20just%20placed%20an%20order%20%23${orderDetails.orderNumber}`}
               target="_blank"
               rel="noopener noreferrer"
               className="block w-full"
