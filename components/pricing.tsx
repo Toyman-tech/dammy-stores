@@ -316,7 +316,7 @@ export default function PricingSection() {
                                 {/* Pricing */}
                                 <div className="text-center mb-6">
                                     <div className="text-white text-4xl font-bold mb-2">{tier.price}</div>
-                                    <div className="text-red-500 text-lg  mb-1">NORMAL PRICE: {tier.normalPrice}</div>
+                                    <div className="text-red-500 text-lg line-through  mb-1">NORMAL PRICE: {tier.normalPrice}</div>
                                     <div className="text-yellow-400 text-lg font-bold">SAVE: {tier.savings}</div>
                                 </div>
 
