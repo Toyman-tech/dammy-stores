@@ -3,19 +3,22 @@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useState, Suspense } from "react"
 import { CheckCircle2 } from "lucide-react"
 import { getWhatsAppDigits } from "@/lib/order"
 
-export default function ThankYouPage() {
+function ThankYouContent() {
   const searchParams = useSearchParams()
   const [orderDetails, setOrderDetails] = useState({
     orderNumber: "",
     amount: "0",
     package: "",
   })
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    setIsMounted(true)
+    
     // Get order details from URL
     const details = {
       orderNumber:
@@ -37,6 +40,20 @@ export default function ThankYouPage() {
       })
     }
   }, [searchParams])
+
+  // Show loading state on server
+  if (!isMounted) {
+    return (
+      <div className="min-h-screen bg-[#f5f5f5] flex flex-col items-center justify-center p-4">
+        <div className="max-w-md w-full bg-white rounded-2xl shadow-sm p-8 text-center">
+          <div className="animate-pulse space-y-4">
+            <div className="h-6 bg-gray-200 rounded w-3/4 mx-auto"></div>
+            <div className="h-4 bg-gray-200 rounded w-5/6 mx-auto"></div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-[#f5f5f5] flex flex-col items-center justify-center p-4">
@@ -99,5 +116,22 @@ export default function ThankYouPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function ThankYouPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#f5f5f5] flex flex-col items-center justify-center p-4">
+        <div className="max-w-md w-full bg-white rounded-2xl shadow-sm p-8 text-center">
+          <div className="animate-pulse space-y-4">
+            <div className="h-6 bg-gray-200 rounded w-3/4 mx-auto"></div>
+            <div className="h-4 bg-gray-200 rounded w-5/6 mx-auto"></div>
+          </div>
+        </div>
+      </div>
+    }>
+      <ThankYouContent />
+    </Suspense>
   )
 }
