@@ -32,13 +32,15 @@ function ThankYouContent() {
 
     // ✅ Fire Facebook Pixel Purchase event
     if (typeof window !== "undefined" && typeof (window as any).fbq !== "undefined") {
-      ;(window as any).fbq("track", "Purchase", {
-        value: Number(details.amount),
-        currency: "NGN",
-        content_name: details.package,
-        order_id: details.orderNumber,
-      })
-    }
+        console.log("🔥 Firing Purchase event", details)
+        ;(window as any).fbq("track", "Purchase", {
+          value: Number(details.amount),
+          currency: "NGN",
+          content_name: details.package,
+          order_id: details.orderNumber,
+        })
+      }
+      
   }, [searchParams])
 
   // Show loading state on server
