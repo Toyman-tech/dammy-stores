@@ -58,7 +58,7 @@ export default function OrderFormSection() {
       end = now + TWELVE_HOURS * 1000
       try {
         window.localStorage.setItem(key, String(end))
-      } catch {}
+      } catch { }
     }
 
     // initialize remaining immediately
@@ -89,7 +89,7 @@ export default function OrderFormSection() {
     setResult(null)
 
     // Map selected order to package details
-    const pkgMap: Record<string, { id: string; name: string; description: string; price: number; originalPrice: number; savings: number } > = {
+    const pkgMap: Record<string, { id: string; name: string; description: string; price: number; originalPrice: number; savings: number }> = {
       regular: {
         id: "regular",
         name: "REGULAR",
@@ -161,7 +161,7 @@ export default function OrderFormSection() {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data?.error || "Failed to send order")
-      
+
       // Send Facebook CAPI event
       try {
         await fetch('/api/fb-capi', {
@@ -179,10 +179,20 @@ export default function OrderFormSection() {
         console.error('Error sending Facebook event:', error);
         // Don't fail the order if FB tracking fails
       }
-      
+
       // Redirect to thank you page with order details
+      // ✅ Redirect to thank you page with email included
       const orderNumber = `ORD-${Date.now().toString().slice(-8)}`
-      window.location.href = `/thank-you?order=${orderNumber}&amount=${selected.price}&package=${encodeURIComponent(selected.name)}`
+      const params = new URLSearchParams({
+        order: orderNumber,
+        amount: selected.price.toString(),
+        package: selected.name,
+        email: formData.email, // ✅ Add email to URL
+        phone: formData.phoneNo, // ✅ Add phone to URL
+      });
+
+      window.location.href = `/thank-you?${params.toString()}`
+
     } catch (err: any) {
       setResult({ error: err?.message || "Unknown error" })
       toast.error("Failed to submit order", {
@@ -200,7 +210,7 @@ export default function OrderFormSection() {
         deliveryAddress: "",
         order: "",
         availability: "",
-      })  
+      })
     }
   }
 
@@ -362,7 +372,7 @@ export default function OrderFormSection() {
                 id="deliveryAddress"
                 placeholder="Delivery Address"
                 value={formData.deliveryAddress}
-                onChange={(e:any) => handleInputChange("deliveryAddress", e.target.value)}
+                onChange={(e: any) => handleInputChange("deliveryAddress", e.target.value)}
                 required
                 className="min-h-[100px]"
               />
@@ -376,7 +386,7 @@ export default function OrderFormSection() {
             </Label>
             <RadioGroup
               value={formData.order}
-              onValueChange={(value : any) => handleInputChange("order", value)}
+              onValueChange={(value: any) => handleInputChange("order", value)}
               className="space-y-3"
             >
               <div className="flex items-center space-x-2">
@@ -413,7 +423,7 @@ export default function OrderFormSection() {
             </Label>
             <RadioGroup
               value={formData.availability}
-              onValueChange={(value : any) => handleInputChange("availability", value)}
+              onValueChange={(value: any) => handleInputChange("availability", value)}
               className="space-y-3"
             >
               <div className="flex items-center space-x-2">
